@@ -8,7 +8,8 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
+import org.apache.commons.codec.language.Metaphone;
+import org.apache.commons.lang3.StringUtils;
 import com.validator.model.Result;
 
 import info.debatty.java.stringsimilarity.Levenshtein;
@@ -47,6 +48,7 @@ public class ValidateServiceAdvancedImpl implements ValidateService{
 
 				String[] arrNext = cleanedData.get(j);
 
+				double finalScore = getDataMatchScore(arr, arrNext);
 			
 			}
 			
@@ -81,7 +83,39 @@ public class ValidateServiceAdvancedImpl implements ValidateService{
 	}
 	
 	public double getDataMatchScore(String[] first, String[] second) {
-	return 0;
+		double finalScore = 0;
+
+		double validCheckPoints = 0;
+
+		for (int i = 1; i < first.length; i++) {
+
+			/*
+			 * if(StringUtils.isNumeric(first[i]) && StringUtils.isNumeric(second[i]) &&
+			 * !first[i].equalsIgnoreCase(second[i])) { validCheckPoints -=1; }
+			 */
+
+			if (!first[i].equalsIgnoreCase("") && !second[i].equalsIgnoreCase("")) {
+				validCheckPoints += 1;
+
+				// checking if the string are equal
+				if (first[i].equalsIgnoreCase(second[i])) {
+					finalScore += 1;
+				} else if (!StringUtils.isNumeric(first[i]) && !StringUtils.isNumeric(second[i])) {
+					// checking if the strings MetaPhone are equal
+					Metaphone metaPhone = new Metaphone();
+
+					if (metaPhone.isMetaphoneEqual(first[i], second[i])) {
+						System.out.println(first[i] + " " +second[i]);
+						finalScore += 1;
+					}
+
+				}
+
+			}
+
+		}
+
+		return finalScore / validCheckPoints;
 	}
 
 }
