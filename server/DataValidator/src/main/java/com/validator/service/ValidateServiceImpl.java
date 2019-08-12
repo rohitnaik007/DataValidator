@@ -28,7 +28,6 @@ public class ValidateServiceImpl implements ValidateService{
 
 			if (checkDifference(arr, arrNext, 1) > AppConstants.FIRST_NAME
 					|| checkDifference(arr, arrNext, 2) > AppConstants.LAST_NAME ||
-					 checkDifference(arr,arrNext,3)>AppConstants.COMPANY ||
 					checkDifference(arr, arrNext, 4) > AppConstants.EMAIL
 					|| checkDifference(arr, arrNext, 5) > AppConstants.ADDRESS1
 					|| checkDifference(arr, arrNext, 6) > AppConstants.ADDRESS2
@@ -36,7 +35,6 @@ public class ValidateServiceImpl implements ValidateService{
 					|| checkDifference(arr, arrNext, 8) > AppConstants.CITY
 					|| checkDifference(arr, arrNext, 9) > AppConstants.STATE_LONG
 					|| checkDifference(arr, arrNext, 10) > AppConstants.STATE
-					|| checkDifference(arr,arrNext,11)>AppConstants.PHONE
 			) {
 				nonDuplicates.add(Arrays.toString(arr));
 				continue;
