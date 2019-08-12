@@ -40,6 +40,7 @@ public class WebController {
 	@Qualifier("validateAdvancedService")
 	ValidateService validateAdvancedService;
 
+	//Api to get validated normal.csv
 	@GetMapping(value = "/data")
 	public Result validateData() throws Exception {
 		
@@ -48,6 +49,7 @@ public class WebController {
 		return validateService.validate(arr);
 	}
 	
+	//Api to get validated advanced.csv
 	@GetMapping(value = "/dataAdvanced")
 	public Result validateDataAdvanced() throws Exception {
 		Reader reader = Files.newBufferedReader(new ClassPathResource(fileNameAdvanced).getFile().toPath());

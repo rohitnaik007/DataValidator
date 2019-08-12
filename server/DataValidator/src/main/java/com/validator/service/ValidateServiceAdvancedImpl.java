@@ -15,26 +15,30 @@ import com.validator.model.Result;
 
 import info.debatty.java.stringsimilarity.Levenshtein;
 
+//ValidateService implementation for normal.csv and advanced.csv both
+
 @Component
 @Qualifier("validateAdvancedService")
-public class ValidateServiceAdvancedImpl implements ValidateService{
+public class ValidateServiceAdvancedImpl implements ValidateService {
 
-	
 	private Levenshtein l = new Levenshtein();
-	
+
 	@Override
 	public Result validate(List<String[]> fileData) throws Exception {
 
 		LinkedList<String[]> newList = new LinkedList<String[]>();
 
+		// cloning original list for add uncleaned data to final list
 		for (String[] temp : fileData)
 			newList.add(temp.clone());
 
 		newList.addAll(fileData);
 
+		// create two lists to store data
 		List<String> duplicates = new ArrayList<String>();
 		List<String> nonDuplicates = new ArrayList<String>();
 
+		// set to store duplicates helping to skip unnecessary matching in iteration
 		Set<String> hashSet = new HashSet<String>();
 
 		// Preprocessing or cleaning the data before use
@@ -51,18 +55,20 @@ public class ValidateServiceAdvancedImpl implements ValidateService{
 
 				if (hashSet.contains(Arrays.toString(newList.get(i)))
 						&& hashSet.contains(Arrays.toString(newList.get(j)))) {
-
+					// Do Nothing if both records are in duplicate set
 				} else {
 					double finalScore = getDataMatchScore(arr, arrNext);
+
+					// add to result list and set if score above threshold
 					if (finalScore > 0.8) {
-						// System.out.println(finalScore);
-						if (!hashSet.contains(i +" " +Arrays.toString(newList.get(i)))) {
-							hashSet.add(i +" " +Arrays.toString(newList.get(i)));
+
+						if (!hashSet.contains(i + " " + Arrays.toString(newList.get(i)))) {
+							hashSet.add(i + " " + Arrays.toString(newList.get(i)));
 							duplicates.add(Arrays.toString(newList.get(i)));
 						}
 
-						if (!hashSet.contains(j +" " +Arrays.toString(newList.get(j)))) {
-							hashSet.add(j +" " +Arrays.toString(newList.get(j)));
+						if (!hashSet.contains(j + " " + Arrays.toString(newList.get(j)))) {
+							hashSet.add(j + " " + Arrays.toString(newList.get(j)));
 							duplicates.add(Arrays.toString(newList.get(j)));
 						}
 					}
@@ -70,40 +76,41 @@ public class ValidateServiceAdvancedImpl implements ValidateService{
 				}
 			}
 
+			// add non duplicates
 			if (!duplicates.contains(Arrays.toString(newList.get(i)))) {
-				// hashSet.add(Arrays.toString(newList.get(j)));
 				nonDuplicates.add(Arrays.toString(newList.get(i)));
 			}
-			
-			
+
 		}
-		
-		
-		if (!duplicates.contains(Arrays.toString(newList.get(newList.size()-1)))) {
+
+		// logic for last record
+		if (!duplicates.contains(Arrays.toString(newList.get(newList.size() - 1)))) {
 			// hashSet.add(Arrays.toString(newList.get(j)));
-			nonDuplicates.add(Arrays.toString(newList.get(newList.size()-1)));
+			nonDuplicates.add(Arrays.toString(newList.get(newList.size() - 1)));
 		}
-		
-		
+
 		return new Result(duplicates, nonDuplicates);
 	}
-	
-	
+
 	public LinkedList<String[]> dataCleaner(List<String[]> fileData) {
 		LinkedList<String[]> newList = new LinkedList<String[]>();
 		for (int i = 0; i < fileData.size() - 1; i++) {
 			String[] arr = fileData.get(i);
 
 			for (int j = 0; j < arr.length; j++) {
+				// trim and to lowercase each sub record
 				arr[j] = arr[j].trim().toLowerCase();
 
+				// remove domain name from email for better matching
 				if (j == 4) {
 					arr[j] = arr[j].split("@")[0];
 				}
 
 				if (j == 11) {
+					// trim special characters for phone
 					arr[j] = arr[j].replace("-", "");
 
+					// make phone number 10 digit if country code present
 					if (arr[j].length() > 10) {
 						arr[j] = arr[j].substring(arr[j].length() - 10);
 					}
@@ -116,8 +123,11 @@ public class ValidateServiceAdvancedImpl implements ValidateService{
 	}
 
 	public double getDataMatchScore(String[] first, String[] second) {
+
+		// score for matched sub-record
 		double finalScore = 0;
 
+		// calculates number of sub-records to be matched (skips empty ones)
 		double validCheckPoints = 0;
 
 		for (int i = 1; i < first.length; i++) {
@@ -137,7 +147,8 @@ public class ValidateServiceAdvancedImpl implements ValidateService{
 
 				}
 
-				// check levenstein distance
+				// check levenstein distance (converted to smaller value as levenstein function
+				// gives a large value)
 
 				double maxLength = Math.max(first[i].length(), second[i].length());
 

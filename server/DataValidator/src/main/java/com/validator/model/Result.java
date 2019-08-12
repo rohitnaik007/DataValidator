@@ -3,7 +3,7 @@ package com.validator.model;
 import java.util.List;
 
 public class Result {
-	
+	//Bean for storing result
 	List<String> duplicates;
 	List<String> nonDuplicates;
 	

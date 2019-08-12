@@ -11,6 +11,7 @@ import com.opencsv.CSVReader;
 @Component
 public class CSVFileReader implements FileReader{
 
+	//Reading csv file stored in project folder
 	public List<String[]> readAll(Reader reader) throws Exception {
 	    CSVReader csvReader = new CSVReader(reader);
 	    List<String[]> list = new ArrayList<>();
