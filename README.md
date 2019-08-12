@@ -62,3 +62,5 @@ Logic for Normal parsing of CSV File (Works with only normal.csv, partially with
 | Return | Returning as separate lists of duplicate and non-duplicate data |
 
 This method needs to have each score value below limit to work. Also it only compares current record with next record. So if duplicates are not continuous, it fails.
+
+Final validated output in result folder
