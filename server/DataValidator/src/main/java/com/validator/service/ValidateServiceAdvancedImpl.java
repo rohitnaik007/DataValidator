@@ -1,6 +1,7 @@
 package com.validator.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,12 +50,20 @@ public class ValidateServiceAdvancedImpl implements ValidateService{
 				String[] arrNext = cleanedData.get(j);
 
 				double finalScore = getDataMatchScore(arr, arrNext);
+				if (finalScore > 0.5) {
+					// System.out.println(finalScore);
+					
+						
+						duplicates.add(Arrays.toString(newList.get(i)));
+				}
+					
 			
 			}
 			
 	}
-		return null;
+		return new Result(duplicates, nonDuplicates);
 	}
+	
 	
 	public LinkedList<String[]> dataCleaner(List<String[]> fileData) {
 		LinkedList<String[]> newList = new LinkedList<String[]>();
@@ -81,19 +90,13 @@ public class ValidateServiceAdvancedImpl implements ValidateService{
 		}
 		return newList;
 	}
-	
+
 	public double getDataMatchScore(String[] first, String[] second) {
 		double finalScore = 0;
 
 		double validCheckPoints = 0;
 
 		for (int i = 1; i < first.length; i++) {
-
-			/*
-			 * if(StringUtils.isNumeric(first[i]) && StringUtils.isNumeric(second[i]) &&
-			 * !first[i].equalsIgnoreCase(second[i])) { validCheckPoints -=1; }
-			 */
-
 			if (!first[i].equalsIgnoreCase("") && !second[i].equalsIgnoreCase("")) {
 				validCheckPoints += 1;
 
@@ -105,10 +108,17 @@ public class ValidateServiceAdvancedImpl implements ValidateService{
 					Metaphone metaPhone = new Metaphone();
 
 					if (metaPhone.isMetaphoneEqual(first[i], second[i])) {
-						System.out.println(first[i] + " " +second[i]);
 						finalScore += 1;
 					}
 
+				}
+
+				// check levenstein distance
+
+				double maxLength = Math.max(first[i].length(), second[i].length());
+
+				if ((maxLength - l.distance(first[i], second[i])) / maxLength > 0.8) {
+					finalScore += 1;
 				}
 
 			}
