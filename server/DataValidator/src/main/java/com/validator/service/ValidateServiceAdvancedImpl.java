@@ -24,6 +24,7 @@ public class ValidateServiceAdvancedImpl implements ValidateService{
 	
 	@Override
 	public Result validate(List<String[]> fileData) throws Exception {
+
 		LinkedList<String[]> newList = new LinkedList<String[]>();
 
 		for (String[] temp : fileData)
@@ -35,7 +36,6 @@ public class ValidateServiceAdvancedImpl implements ValidateService{
 		List<String> nonDuplicates = new ArrayList<String>();
 
 		Set<String> hashSet = new HashSet<String>();
-		// fileData.remove(0);
 
 		// Preprocessing or cleaning the data before use
 
@@ -49,18 +49,42 @@ public class ValidateServiceAdvancedImpl implements ValidateService{
 
 				String[] arrNext = cleanedData.get(j);
 
-				double finalScore = getDataMatchScore(arr, arrNext);
-				if (finalScore > 0.5) {
-					// System.out.println(finalScore);
-					
-						
-						duplicates.add(Arrays.toString(newList.get(i)));
+				if (hashSet.contains(Arrays.toString(newList.get(i)))
+						&& hashSet.contains(Arrays.toString(newList.get(j)))) {
+
+				} else {
+					double finalScore = getDataMatchScore(arr, arrNext);
+					if (finalScore > 0.8) {
+						// System.out.println(finalScore);
+						if (!hashSet.contains(i +" " +Arrays.toString(newList.get(i)))) {
+							hashSet.add(i +" " +Arrays.toString(newList.get(i)));
+							duplicates.add(Arrays.toString(newList.get(i)));
+						}
+
+						if (!hashSet.contains(j +" " +Arrays.toString(newList.get(j)))) {
+							hashSet.add(j +" " +Arrays.toString(newList.get(j)));
+							duplicates.add(Arrays.toString(newList.get(j)));
+						}
+					}
+
 				}
-					
-			
+			}
+
+			if (!duplicates.contains(Arrays.toString(newList.get(i)))) {
+				// hashSet.add(Arrays.toString(newList.get(j)));
+				nonDuplicates.add(Arrays.toString(newList.get(i)));
 			}
 			
-	}
+			
+		}
+		
+		
+		if (!duplicates.contains(Arrays.toString(newList.get(newList.size()-1)))) {
+			// hashSet.add(Arrays.toString(newList.get(j)));
+			nonDuplicates.add(Arrays.toString(newList.get(newList.size()-1)));
+		}
+		
+		
 		return new Result(duplicates, nonDuplicates);
 	}
 	

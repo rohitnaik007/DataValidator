@@ -9,7 +9,7 @@ class Display extends Component{
       }
       componentDidMount() {
 
-        fetch('http://localhost:8080/api/data')
+        fetch('http://localhost:8080/api/dataAdvanced')
         .then(res => res.json())
         .then((data) => {
           this.setState({ dupData: data })

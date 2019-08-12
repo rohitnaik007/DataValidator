@@ -29,7 +29,7 @@ public class WebController {
 	@Value("${normalFileName}")
 	private String fileName;
 
-	@Value("${normalFileName}")
+	@Value("${advancedFileName}")
 	private String fileNameAdvanced;
 	
 	@Autowired
