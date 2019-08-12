@@ -36,8 +36,8 @@ public class WebController {
 	@Qualifier("validateService")
 	ValidateService validateService;
 	
-	@Qualifier("validateAdvancedService")
 	@Autowired
+	@Qualifier("validateAdvancedService")
 	ValidateService validateAdvancedService;
 
 	@GetMapping(value = "/data")
@@ -49,7 +49,7 @@ public class WebController {
 	}
 	
 	@GetMapping(value = "/dataAdvanced")
-	public Result readAllAdvanced() throws Exception {
+	public Result validateDataAdvanced() throws Exception {
 		Reader reader = Files.newBufferedReader(new ClassPathResource(fileNameAdvanced).getFile().toPath());
 		List<String[]> arr = fileReader.readAll(reader);
 		return validateAdvancedService.validate(arr);

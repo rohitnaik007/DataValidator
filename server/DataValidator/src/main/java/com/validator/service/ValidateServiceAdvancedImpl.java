@@ -23,6 +23,10 @@ public class ValidateServiceAdvancedImpl implements ValidateService{
 	@Override
 	public Result validate(List<String[]> fileData) throws Exception {
 		LinkedList<String[]> newList = new LinkedList<String[]>();
+
+		for (String[] temp : fileData)
+			newList.add(temp.clone());
+
 		newList.addAll(fileData);
 
 		List<String> duplicates = new ArrayList<String>();
@@ -74,6 +78,10 @@ public class ValidateServiceAdvancedImpl implements ValidateService{
 			newList.add(arr);
 		}
 		return newList;
+	}
+	
+	public double getDataMatchScore(String[] first, String[] second) {
+	return 0;
 	}
 
 }
