@@ -33,12 +33,9 @@ public class WebController {
 
 	@GetMapping(value = "/data")
 	public Result readAll() throws Exception {
-		// Reader reader = Files.newBufferedReader(Paths.get(
-		// ClassLoader.getSystemResource(fileName).toURI()));
-		// System.out.println(new ClassPathResource(fileName).getFile());
+		
 		Reader reader = Files.newBufferedReader(new ClassPathResource(fileName).getFile().toPath());
 		List<String[]> arr = fileReader.readAll(reader);
-		//System.out.println(arr);
 		return validateService.validate(arr);
 	}
 }
