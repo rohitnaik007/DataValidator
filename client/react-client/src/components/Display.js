@@ -24,15 +24,15 @@ class Display extends Component{
             <div className="container">
            
             <h1>Validated Data</h1>
-            <div class="table-responsive">          
-             <table class="table table-bordered">
-             <thead class="thead-dark">
+            <div className="table-responsive">          
+             <table className="table table-bordered">
+             <thead className="thead-dark">
                 <tr>
                      <th>Duplicate Data</th>
                 </tr>
             </thead>
             <tbody>
-            {!this.state.dupData ? <div>No Data</div> : this.state.dupData.duplicates.map((data,i) => (
+            {!this.state.dupData ? <tr></tr> : this.state.dupData.duplicates.map((data,i) => (
               <tr  key={i}>
                
                   <td>{data}</td>
@@ -42,15 +42,15 @@ class Display extends Component{
             </tbody>
             </table>
            </div>
-           <div class="table-responsive">          
-             <table class="table table-bordered">
-             <thead class="thead-dark">
+           <div className="table-responsive">          
+             <table className="table table-bordered">
+             <thead className="thead-dark">
                 <tr>
                      <th>Non-Duplicate Data</th>
                 </tr>
             </thead>
             <tbody>
-            {!this.state.dupData ? <div>No Data</div> : this.state.dupData.nonDuplicates.map((data,i) => (
+            {!this.state.dupData ? <tr></tr> : this.state.dupData.nonDuplicates.map((data,i) => (
               <tr  key={i}>
                
               <td>{data}</td>

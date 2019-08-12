@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.validator.model.Result;
@@ -12,6 +13,7 @@ import com.validator.utils.AppConstants;
 import info.debatty.java.stringsimilarity.Levenshtein;
 
 @Component
+@Qualifier("validateService")
 public class ValidateServiceImpl implements ValidateService{
 
 	private Levenshtein l = new Levenshtein();

@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 
@@ -28,14 +29,29 @@ public class WebController {
 	@Value("${normalFileName}")
 	private String fileName;
 
+	@Value("${normalFileName}")
+	private String fileNameAdvanced;
+	
 	@Autowired
+	@Qualifier("validateService")
 	ValidateService validateService;
+	
+	@Qualifier("validateAdvancedService")
+	@Autowired
+	ValidateService validateAdvancedService;
 
 	@GetMapping(value = "/data")
-	public Result readAll() throws Exception {
+	public Result validateData() throws Exception {
 		
 		Reader reader = Files.newBufferedReader(new ClassPathResource(fileName).getFile().toPath());
 		List<String[]> arr = fileReader.readAll(reader);
 		return validateService.validate(arr);
+	}
+	
+	@GetMapping(value = "/dataAdvanced")
+	public Result readAllAdvanced() throws Exception {
+		Reader reader = Files.newBufferedReader(new ClassPathResource(fileNameAdvanced).getFile().toPath());
+		List<String[]> arr = fileReader.readAll(reader);
+		return validateAdvancedService.validate(arr);
 	}
 }
