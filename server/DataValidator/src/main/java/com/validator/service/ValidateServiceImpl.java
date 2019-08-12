@@ -49,6 +49,12 @@ public class ValidateServiceImpl implements ValidateService{
 
 		}
 		
+		if (!nonDuplicates.contains(fileData.get(fileData.size() - 1))) {
+			nonDuplicates.add(Arrays.toString(fileData.get(fileData.size() - 1)));
+		} else if (!duplicates.contains(fileData.get(fileData.size() - 1))) {
+			duplicates.add(Arrays.toString(fileData.get(fileData.size() - 1)));
+		}
+		
 		return new Result(duplicates, nonDuplicates);
 	}
 
