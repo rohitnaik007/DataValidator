@@ -35,7 +35,7 @@ public class WebController {
 		// System.out.println(new ClassPathResource(fileName).getFile());
 		Reader reader = Files.newBufferedReader(new ClassPathResource(fileName).getFile().toPath());
 		List<String[]> arr = fileReader.readAll(reader);
-		System.out.println(arr);
-		return null;
+		//System.out.println(arr);
+		return validateService.validate(arr);
 	}
 }
